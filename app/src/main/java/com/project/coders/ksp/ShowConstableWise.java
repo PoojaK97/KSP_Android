@@ -1,12 +1,17 @@
 package com.project.coders.ksp;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.GestureDetector;
+import android.view.MotionEvent;
+import android.view.View;
 
 public class ShowConstableWise extends Activity {
     private RecyclerView recyclerView;
@@ -26,7 +31,7 @@ public class ShowConstableWise extends Activity {
         recyclerView.setLayoutManager(layoutManager);
         myDataset =new String[]{"KSP171: Kumaran LP","KSP202: Hema Lata"};
         // specify an adapter (see also next example)
-        mAdapter = new CheckAssignmentAdapter(myDataset);
+        mAdapter = new ShowConstableWiseAdapter(this,myDataset);
         recyclerView.setAdapter(mAdapter);
     }
 

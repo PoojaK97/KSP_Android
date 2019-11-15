@@ -1,30 +1,39 @@
 package com.project.coders.ksp;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.LinearLayoutCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
+import android.text.Layout;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
 public class ShowConstableWiseAdapter extends RecyclerView.Adapter<com.project.coders.ksp.CheckAssignmentAdapter.MyViewHolder> {
     private String[] mDataset;
+    private Context mcontext;
+
 
     // Provide a reference to the views for each data item
     // Complex data items may need more than one view per item, and
     // you provide access to all the views for a data item in a view holder
-    public static class MyViewHolder extends RecyclerView.ViewHolder {
+    public class MyViewHolder extends RecyclerView.ViewHolder  {
         // each data item is just a string in this case
         public TextView textView;
-        public MyViewHolder(TextView v) {
+        public LinearLayoutCompat parentLayout;
+        public MyViewHolder(View v) {
             super(v);
-            textView = v;
+            textView = v.findViewById(R.id.textView3);
+
         }
     }
 
     // Provide a suitable constructor (depends on the kind of dataset)
-    public ShowConstableWiseAdapter(String[] myDataset) {
+    public ShowConstableWiseAdapter(Context c, String[] myDataset) {
         mDataset = myDataset;
         //mDataset = new String[]{"rose", "violet"};
     }
@@ -46,7 +55,6 @@ public class ShowConstableWiseAdapter extends RecyclerView.Adapter<com.project.c
         // - get element from your dataset at this position
         // - replace the contents of the view with that element
         holder.textView.setText(mDataset[position]);
-
     }
 
     // Return the size of your dataset (invoked by the layout manager)

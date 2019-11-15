@@ -25,7 +25,7 @@ public class Beats extends Activity {
             recyclerView.setLayoutManager(layoutManager);
             myDataset =new String[]{"Beat 1: HKT layout","Beat 2: PalaceGrounds"};
             // specify an adapter (see also next example)
-            mAdapter = new CheckAssignmentAdapter(myDataset);
+            mAdapter = new BeatAdapter(myDataset);
             recyclerView.setAdapter(mAdapter);
         }
 }
