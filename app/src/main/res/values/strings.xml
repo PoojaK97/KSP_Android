@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">KSP</string>
+    <string name="notification_text">KSP</string>
 </resources>
