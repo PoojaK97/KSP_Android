@@ -23,6 +23,9 @@
         <activity android:name=".CheckAssignment" />
         <activity android:name=".Camera" />
         <activity android:name=".SignUp" />
+        <activity android:name=".Supervisor"></activity>
+        <activity android:name=".ShowConstableWise"/>
+        <activity android:name=".Beats"/>
         <activity android:name=".ForgotPassword" />
         <activity android:name=".Constable" />
         <activity android:name=".Login" />
