@@ -10,6 +10,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -26,6 +28,8 @@ public class ShowConstableWise extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        final String uid = user.getUid();
         setContentView(R.layout.activity_show_constable_wise);
         recyclerView = (RecyclerView) findViewById(R.id.RecyclerViewConstable);
         // use this setting to improve performance if you know that changes
@@ -35,18 +39,28 @@ public class ShowConstableWise extends Activity {
         layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
 
-        final ArrayList<String> statesArrayList= new ArrayList<>();
+        final ArrayList<String> idsArrayList= new ArrayList<>();
+        final ArrayList<String> namesArrayList= new ArrayList<>();
 
-        DatabaseReference ref = FirebaseDatabase.getInstance().getReference("Assignments");
-        ref.addValueEventListener(new ValueEventListener() {
+        final DatabaseReference ref1 = FirebaseDatabase.getInstance().getReference("Users");
+        ref1.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 for(DataSnapshot ds : dataSnapshot.getChildren()) {
                     String key = ds.getKey();
-                    statesArrayList.add(key);
+                    String role = ds.child("Role").getValue(String.class);
+                    String supervisor = ds.child("Supervisor").getValue(String.class);
+                    if (role.equals("Constable") && supervisor.equals(uid)) {
+                        String name = ds.child("Name").getValue(String.class);
+                        Log.i("NAME", name);
+                        Log.i("ROLE", role);
+                        Log.i("KEY", key);
+                        idsArrayList.add(key);
+                        namesArrayList.add(name);
+                    }
                 }
-                for (String member : statesArrayList){
-                    Log.i("ARRAY LIST: ", member);
+                for (String member : namesArrayList){
+                    Log.i("NAMES LIST: ", member);
                 }
             }
             @Override
@@ -54,6 +68,7 @@ public class ShowConstableWise extends Activity {
 
             }
         });
+
         myDataset =new String[]{"KSP171: Kumaran LP","KSP202: Hema Lata"};
         // specify an adapter (see also next example)
         mAdapter = new CheckAssignmentAdapter(myDataset);
