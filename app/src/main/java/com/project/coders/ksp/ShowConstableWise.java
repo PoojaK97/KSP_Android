@@ -29,11 +29,13 @@ public class ShowConstableWise extends Activity {
     private RecyclerView.Adapter mAdapter;
     private RecyclerView.LayoutManager layoutManager;
     private String[] myDataset;
+    private String[] myDataset1;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_show_constable_wise);
-        recyclerView = (RecyclerView) findViewById(R.id.RecyclerViewConstable);
+        recyclerView = findViewById(R.id.RecyclerViewConstable);
 
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         final String uid = user.getUid();
@@ -74,9 +76,10 @@ public class ShowConstableWise extends Activity {
             }
         });
 
-        myDataset =new String[]{"KSP171: Kumaran LP","KSP202: Hema Lata"};
+        myDataset =new String[]{"KSP171","KSP202"};
+        myDataset1 =new String[]{"Kumaran LP","Hema Lata"};
         // specify an adapter (see also next example)
-        mAdapter = new ShowConstableWiseAdapter(this,myDataset);
+        mAdapter = new ShowConstableWiseAdapter(myDataset,myDataset1,getApplicationContext());
         recyclerView.setAdapter(mAdapter);
     }
 
