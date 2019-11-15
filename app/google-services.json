@@ -15,6 +15,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "680397388271-ai2dmb2qu287514prnkl00q82ppc7ijd.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.project.coders.ksp",
+            "certificate_hash": "cd1e3e422a4097b9569bc15ebc5da529a55d9d37"
+          }
+        },
+        {
           "client_id": "680397388271-barrb5sccg9v8vsuieruqg2mamcapgp4.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
