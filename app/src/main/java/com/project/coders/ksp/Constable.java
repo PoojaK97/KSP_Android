@@ -51,6 +51,12 @@ public class Constable extends AppCompatActivity {
                 startActivity(new Intent(Constable.this,Report.class));
             }
         });
+        qr.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(Constable.this,QR.class));
+            }
+        });
 
         int permission = ContextCompat.checkSelfPermission(this,
                 Manifest.permission.ACCESS_FINE_LOCATION);
