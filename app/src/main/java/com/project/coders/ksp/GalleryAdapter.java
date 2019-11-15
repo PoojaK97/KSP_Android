@@ -1,5 +1,6 @@
 package com.project.coders.ksp;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.net.Uri;
 import android.view.LayoutInflater;
@@ -45,7 +46,7 @@ public class GalleryAdapter extends BaseAdapter {
         inflater = (LayoutInflater) ctx
                 .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
-        View itemView = inflater.inflate(R.layout.gv_item, parent, false);
+        @SuppressLint("ViewHolder") View itemView = inflater.inflate(R.layout.gv_item, parent, false);
 
         ivGallery = (ImageView) itemView.findViewById(R.id.ivGallery);
 
