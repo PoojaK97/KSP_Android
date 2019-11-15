@@ -15,7 +15,7 @@ public class Constable extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_constable);
         Button reportbutton = findViewById(R.id.report);
-        Button checkassignbutton = findViewById(R.id.checkAssignment);
+        Button checkassignbutton = findViewById(R.id.beatwise);
         final ImageView cam = findViewById(R.id.imageButton);
         final ImageView writ = findViewById(R.id.imageButton2);
         final ImageView qr = findViewById(R.id.imageButton4);

@@ -42,7 +42,7 @@ public class Login extends AppCompatActivity {
 
         mAuth = FirebaseAuth.getInstance();
         if (mAuth.getCurrentUser()!=null){
-            Intent intent = new Intent(getApplicationContext(), Constable.class);
+            Intent intent = new Intent(getApplicationContext(), Supervisor.class);
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             startActivity(intent);
             finish();
@@ -120,7 +120,7 @@ public class Login extends AppCompatActivity {
                             Log.d(TAG,"SignInWithEmail:Success",task.getException());
                             Toast.makeText(getApplicationContext(),"Successful",Toast.LENGTH_SHORT).show();
 
-                            Intent intent = new Intent(getApplicationContext(), Constable.class);
+                            Intent intent = new Intent(getApplicationContext(), Supervisor.class);
                             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                             startActivity(intent);
                             finish();
