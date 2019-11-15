@@ -4,29 +4,28 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#EBDD9F"
-    tools:context=".Login">
+    tools:context=".SignUp">
 
     <TextView
         android:id="@+id/title"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="64dp"
-        android:text="KARNATAKA STATE POLICE"
+        android:layout_marginTop="56dp"
+        android:text="Sign Up"
         android:textAlignment="center"
         android:textColor="@color/colorPrimaryDark"
-        android:textSize="25sp"
+        android:textSize="30sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
 
     <EditText
         android:id="@+id/email_field"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="68dp"
-        android:layout_marginTop="48dp"
+        android:layout_marginTop="40dp"
         android:layout_marginEnd="68dp"
         android:ems="10"
         android:hint="Email"
@@ -58,45 +57,52 @@
         tools:textColor="@color/colorPrimaryDark"
         tools:textColorHighlight="#FFFFFF" />
 
-    <TextView
-        android:id="@+id/forgot_password"
+    <EditText
+        android:id="@+id/confirmpassword"
         android:layout_width="match_parent"
-        android:layout_height="24dp"
-        android:layout_marginTop="24dp"
-        android:clickable="true"
-        android:text="Forgot Password"
-        android:textAlignment="center"
-        android:textColor="@color/colorPrimary"
-        android:textSize="18sp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="68dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="68dp"
+        android:ems="10"
+        android:hint="Confirm Password"
+        android:inputType="textPassword"
+        android:textColor="@color/colorPrimaryDark"
+        android:textColorHint="@color/colorPrimaryDark"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/login" />
+        app:layout_constraintTop_toBottomOf="@+id/password"
+        tools:textColor="@color/colorPrimaryDark"
+        tools:textColorHighlight="#FFFFFF" />
 
     <Button
-        android:id="@+id/login"
-        android:layout_width="200dp"
+        android:id="@+id/register"
+        android:layout_width="250dp"
         android:layout_height="wrap_content"
-        android:layout_margin="35dp"
+        android:layout_margin="32dp"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="80dp"
         android:layout_marginEnd="16dp"
         android:background="@color/colorPrimaryDark"
-        android:text="Log In"
+        android:text="Register"
         android:textColor="#FFFFFF"
         android:textSize="18sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.497"
+        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/password" />
+        app:layout_constraintTop_toBottomOf="@+id/confirmpassword" />
 
     <TextView
-        android:id="@+id/register"
-        android:layout_width="match_parent"
-        android:layout_height="29dp"
-        android:layout_marginTop="10dp"
-        android:text="Not Registered? Register here"
-        android:textAlignment="center"
-        android:textColor="@color/colorPrimary"
+        android:id="@+id/login"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="128dp"
+        android:layout_marginTop="15dp"
+        android:layout_marginEnd="128dp"
+        android:text="Log In"
+        android:textColor="@color/colorPrimaryDark"
         android:textSize="18sp"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/forgot_password" />
+        app:layout_constraintTop_toBottomOf="@+id/register" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

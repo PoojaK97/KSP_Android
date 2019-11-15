@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "680397388271",
+    "firebase_url": "https://kspfirebaseproject.firebaseio.com",
+    "project_id": "kspfirebaseproject",
+    "storage_bucket": "kspfirebaseproject.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:680397388271:android:e662b83e0da00a18a05e1a",
+        "android_client_info": {
+          "package_name": "com.project.coders.ksp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "680397388271-barrb5sccg9v8vsuieruqg2mamcapgp4.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.project.coders.ksp",
+            "certificate_hash": "5989d1d7d9848b5c5bdc1b33ef629aa662e1f415"
+          }
+        },
+        {
+          "client_id": "680397388271-ch068f3sijn6o7fpl9l525vq96vme9it.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDKlehPN6qcA0w4ekIZz5nzRE9_rKWNzbo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "680397388271-ch068f3sijn6o7fpl9l525vq96vme9it.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
