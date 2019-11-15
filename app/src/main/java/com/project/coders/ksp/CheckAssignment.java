@@ -16,7 +16,7 @@ public class CheckAssignment extends Activity {
         protected void onCreate(Bundle savedInstanceState) {
             super.onCreate(savedInstanceState);
             setContentView(R.layout.activity_check_assignment);
-            recyclerView = (RecyclerView) findViewById(R.id.assignRecycle);
+            recyclerView = findViewById(R.id.assignRecycle);
             // use this setting to improve performance if you know that changes
             // in content do not change the layout size of the RecyclerView
             recyclerView.setHasFixedSize(true);

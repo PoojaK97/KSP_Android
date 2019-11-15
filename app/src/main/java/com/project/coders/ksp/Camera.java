@@ -13,6 +13,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.util.Base64;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -62,8 +63,6 @@ public class Camera extends AppCompatActivity {
                 }
                 else {
                     Intent cInt = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-//                    imageUri = getImageUri();
-//                    cInt.putExtra(MediaStore.EXTRA_OUTPUT, imageUri);
                     startActivityForResult(cInt, Image_Capture_Code);
                 }
             }
@@ -110,34 +109,32 @@ public class Camera extends AppCompatActivity {
             Uri filePath = data.getData();
             if (resultCode == RESULT_OK) {
                 Bitmap photo = (Bitmap) data.getExtras().get("data");
-                ByteArrayOutputStream baos = new ByteArrayOutputStream();
-                //photo.compress(Bitmap.CompressFormat.PNG, 100, baos);
-                //String imageEncoded = Base64.encodeToString(baos.toByteArray(), Base64.DEFAULT);
-
+                imgCapture.setImageBitmap(photo);
                 DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
                 Date date = new Date();
                 filename = "IMG_" + dateFormat.format(date).replaceAll("\\s+", "").replaceAll("/", "_");
                 FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
                 String uid = user.getUid();
-                StorageReference riversRef1 = mStorageRef.child("Beats/" + uid + "/" + filename);
-
-                riversRef1.putFile(filePath)
-                        .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-                            @Override
-                            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                                // Get a URL to the uploaded content
-                                //Uri downloadUrl = taskSnapshot.getDownloadUrl();
-                                System.out.println("sucess upload");
-                            }
-                        })
-                        .addOnFailureListener(new OnFailureListener() {
-                            @Override
-                            public void onFailure(@NonNull Exception exception) {
-                                // Handle unsuccessful uploads
-                                // ...
-                            }
-                        });
-                imgCapture.setImageBitmap(photo);
+                StorageReference ref = mStorageRef.child("Beats/" + uid + "/" + filename);
+                ByteArrayOutputStream baos = new ByteArrayOutputStream();
+                photo.compress(Bitmap.CompressFormat.JPEG, 20, baos);
+                byte[] data1 = baos.toByteArray();
+                UploadTask uploadTask = ref.putBytes(data1);
+                uploadTask.addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception exception) {
+                        // Handle unsuccessful uploads
+                    }
+                }).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                    @Override
+                    public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                        // taskSnapshot.getMetadata() contains file metadata such as size, content-type, and download URL.
+//                        Uri downloadUrl = taskSnapshot.getDownloadUrl();
+//                        sendMsg("" + downloadUrl, 2);
+//                        Log.d("downloadUrl-->", "" + downloadUrl);
+                        Toast.makeText(getApplicationContext(), "Image uploaded.",Toast.LENGTH_LONG).show();
+                    }
+                });
             } else if (resultCode == RESULT_CANCELED) {
                 Toast.makeText(this, "Image capture cancelled.",
                         Toast.LENGTH_LONG).show();
@@ -165,7 +162,7 @@ public class Camera extends AppCompatActivity {
                             public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
                                 // Get a URL to the uploaded content
                                 //Uri downloadUrl = taskSnapshot.getDownloadUrl();
-                                System.out.println("sucess upload");
+                                Toast.makeText(getApplicationContext(), "Video uploaded.",Toast.LENGTH_LONG).show();
                             }
                         })
                         .addOnFailureListener(new OnFailureListener() {
