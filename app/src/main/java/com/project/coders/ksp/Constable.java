@@ -14,9 +14,26 @@ public class Constable extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_constable);
-
-        ImageView cam = findViewById(R.id.imageButton);
-
+        Button reportbutton = findViewById(R.id.report);
+        Button checkassignbutton = findViewById(R.id.checkAssignment);
+        final ImageView cam = findViewById(R.id.imageButton);
+        final ImageView writ = findViewById(R.id.imageButton2);
+        final ImageView qr = findViewById(R.id.imageButton4);
+        reportbutton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                cam.setVisibility(View.VISIBLE);
+                writ.setVisibility(View.VISIBLE);
+                qr.setVisibility(View.VISIBLE);
+            }
+        });
+        checkassignbutton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(Constable.this,CheckAssignment.class));
+                finish();
+            }
+        });
         cam.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
