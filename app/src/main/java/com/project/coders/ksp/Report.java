@@ -12,10 +12,16 @@ import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.GridView;
+import android.widget.TextView;
 import android.widget.Toast;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 public class Report extends AppCompatActivity {
@@ -44,6 +50,11 @@ public class Report extends AppCompatActivity {
             }
         });
 
+        Date date = Calendar.getInstance().getTime();
+        DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+        String strDate = dateFormat.format(date);
+        EditText t = findViewById(R.id.police_id);
+        t.setText(strDate);
     }
 
     @Override

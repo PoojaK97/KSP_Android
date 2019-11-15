@@ -8,65 +8,72 @@
 
     <ImageView
         android:id="@+id/capturedImage"
-        android:layout_width="397dp"
-        android:layout_height="369dp"
-        android:layout_above="@+id/btnTakePicture"
-        android:layout_alignParentTop="true"
+        android:layout_width="200dp"
+        android:layout_height="300dp"
+        android:layout_above="@+id/button2"
+        android:layout_below="@+id/button1"
         android:layout_alignParentEnd="true"
-        android:layout_alignParentRight="true"
-        android:layout_marginTop="3dp"
-        android:layout_marginEnd="5dp"
-        android:layout_marginRight="5dp"
-        android:layout_marginBottom="11dp"
+        android:layout_alignParentRight="false"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="100dp"
+        android:layout_marginRight="11dp"
+        android:layout_marginBottom="192dp"
         android:foregroundGravity="center" />
 
     <Button
         android:id="@+id/btnTakePicture"
-        android:layout_width="166dp"
+        android:layout_width="125dp"
         android:layout_height="78dp"
-        android:layout_alignParentStart="true"
+        android:layout_alignParentStart="false"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentBottom="true"
-        android:layout_marginStart="12dp"
-        android:layout_marginLeft="12dp"
-        android:layout_marginBottom="154dp"
-        android:text="Take a Photo"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentBottom="false"
+        android:layout_marginStart="48dp"
+        android:layout_marginLeft="59dp"
+        android:layout_marginTop="40dp"
+        android:layout_marginBottom="10dp"
+        android:text="Photo"
         android:textStyle="bold" />
 
     <Button
         android:id="@+id/button1"
-        android:layout_width="197dp"
+        android:layout_width="100dp"
         android:layout_height="80dp"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentBottom="true"
-        android:layout_marginStart="203dp"
-        android:layout_marginLeft="203dp"
-        android:layout_marginEnd="10dp"
+        android:layout_alignParentLeft="false"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="false"
+        android:layout_marginStart="36dp"
+        android:layout_marginTop="40dp"
+        android:layout_marginEnd="59dp"
         android:layout_marginRight="10dp"
-        android:layout_marginBottom="152dp"
-        android:text="Take a Video"
+        android:layout_marginBottom="10dp"
+        android:layout_toEndOf="@+id/btnTakePicture"
+        android:text="Video"
         android:textStyle="bold" />
-
-    <com.google.android.material.textfield.TextInputLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="TEXT">
-
-        <com.google.android.material.textfield.TextInputEditText
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
-    </com.google.android.material.textfield.TextInputLayout>
 
     <Button
         android:id="@+id/button2"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"
         android:layout_alignParentRight="true"
         android:layout_alignParentBottom="true"
-        android:layout_marginEnd="20dp"
-        android:layout_marginRight="20dp"
-        android:layout_marginBottom="18dp"
+        android:layout_centerHorizontal="true"
+        android:layout_marginEnd="-1dp"
+        android:layout_marginRight="-1dp"
+        android:layout_marginBottom="61dp"
         android:text="SUBMIT" />
+
+    <com.google.android.material.textfield.TextInputEditText
+        android:id="@+id/des"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginEnd="6dp"
+        android:layout_marginBottom="168dp"
+        android:hint="Short Description" />
 </RelativeLayout>
