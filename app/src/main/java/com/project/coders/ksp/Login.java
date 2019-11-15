@@ -47,7 +47,8 @@ public class Login extends AppCompatActivity {
 
         mAuth = FirebaseAuth.getInstance();
         if (mAuth.getCurrentUser()!=null){
-            DatabaseReference ref = FirebaseDatabase.getInstance().getReference("Users/"+mAuth.getCurrentUser());
+            String uid = mAuth.getCurrentUser().getUid();
+            DatabaseReference ref = FirebaseDatabase.getInstance().getReference("Users/"+uid);
               ref.addValueEventListener(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -145,10 +146,31 @@ public class Login extends AppCompatActivity {
                             Log.d(TAG,"SignInWithEmail:Success",task.getException());
                             Toast.makeText(getApplicationContext(),"Successful",Toast.LENGTH_SHORT).show();
 
-                            Intent intent = new Intent(getApplicationContext(), Supervisor.class);
-                            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                            startActivity(intent);
-                            finish();
+                            String uid = mAuth.getCurrentUser().getUid();
+                            DatabaseReference ref = FirebaseDatabase.getInstance().getReference("Users/"+uid);
+                            ref.addValueEventListener(new ValueEventListener() {
+                                @Override
+                                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                                    String role = dataSnapshot.child("Role").getValue(String.class);
+                                    assert role != null;
+                                    if (role.equals("DySP")) {
+                                        Intent intent = new Intent(getApplicationContext(), Supervisor.class);
+                                        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                                        startActivity(intent);
+                                        finish();
+                                    }
+                                    else {
+                                        Intent intent = new Intent(getApplicationContext(), Constable.class);
+                                        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                                        startActivity(intent);
+                                        finish();
+                                    }
+                                }
+                                @Override
+                                public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                                }
+                            });
                         } else {
                             Log.w(TAG, "signInWithEmail:failure", task.getException());
                             Toast.makeText(getApplicationContext(), Objects.requireNonNull(task.getException()).getMessage(),Toast.LENGTH_SHORT).show();
