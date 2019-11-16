@@ -93,14 +93,12 @@ public class Constable extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 startActivity(new Intent(Constable.this, Camera.class));
-                finish();
             }
         });
         writ.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 startActivity(new Intent(Constable.this, Report.class));
-                finish();
             }
         });
 
