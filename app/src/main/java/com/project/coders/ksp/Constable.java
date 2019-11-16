@@ -143,6 +143,9 @@ public class Constable extends AppCompatActivity {
                         Signature signature = result.getCryptoObject().getSignature();
                         signature.update(mToBeSignedMessage.getBytes());
                         String signatureString = Base64.encodeToString(signature.sign(), Base64.URL_SAFE);
+                        Intent intent = new Intent(getApplicationContext(), MapsActivity.class);
+                        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                        startActivity(intent);
                         // Normally, ToBeSignedMessage and Signature are sent to the server and then verified
                         Log.i(TAG, "Message: " + mToBeSignedMessage);
                         Log.i(TAG, "Signature (Base64 EncodeD): " + signatureString);

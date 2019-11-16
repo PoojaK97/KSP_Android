@@ -2,6 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:dist="http://schemas.android.com/apk/distribution"
     package="com.project.coders.ksp">
+
     <!--
          The ACCESS_COARSE/FINE_LOCATION permissions are not required to use
          Google Maps Android API v2, but you must specify either coarse or fine
@@ -11,10 +12,13 @@
 
     <dist:module dist:instant="true" />
 
-    <uses-feature android:name="android.hardware.fingerprint"
-        android:required="false"/>
-    <uses-permission android:name="android.permission.USE_BIOMETRIC"
-        android:requiredFeature="false"/>
+    <uses-feature
+        android:name="android.hardware.fingerprint"
+        android:required="false" />
+
+    <uses-permission
+        android:name="android.permission.USE_BIOMETRIC"
+        android:requiredFeature="false" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.CAMERA" />
@@ -29,9 +33,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".TabFuture" />
-        <activity android:name=".TabPresent" />
-        <activity android:name=".TabPast" />
+
         <!--
              The API key for Google Maps-based APIs is defined as a string resource.
              (See the file "res/values/google_maps_api.xml").
@@ -44,6 +46,12 @@
             android:name="com.google.android.geo.API_KEY"
             android:value="@string/google_maps_key" />
 
+        <activity
+            android:name=".MapsActivity"
+            android:label="Map"></activity>
+        <activity android:name=".TabFuture" />
+        <activity android:name=".TabPresent" />
+        <activity android:name=".TabPast" />
         <activity
             android:name=".showAssignmentSup"
             android:label="@string/title_activity_show_assignment_sup" />
