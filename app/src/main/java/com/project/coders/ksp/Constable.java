@@ -4,10 +4,14 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.biometric.BiometricPrompt;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.core.hardware.fingerprint.FingerprintManagerCompat;
 
+import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.hardware.biometrics.BiometricManager;
 import android.hardware.fingerprint.FingerprintManager;
 import android.os.Build;
@@ -37,8 +41,10 @@ import java.util.concurrent.Executor;
 public class Constable extends AppCompatActivity {
 
     private static final String TAG = Constable.class.getName();
+    private static final int PERMISSIONS_REQUEST = 1;
 
     private String mToBeSignedMessage;
+    private Context context;
 
     // Unique identifier of a key pair
     private static final String KEY_NAME = UUID.randomUUID().toString();
@@ -46,6 +52,7 @@ public class Constable extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_constable);
+        context = getApplicationContext();
         Button reportbutton = findViewById(R.id.report);
         Button checkassignbutton = findViewById(R.id.beatwise);
         final ImageView cam = findViewById(R.id.imageButton);
@@ -141,6 +148,12 @@ public class Constable extends AppCompatActivity {
                         Signature signature = result.getCryptoObject().getSignature();
                         signature.update(mToBeSignedMessage.getBytes());
                         String signatureString = Base64.encodeToString(signature.sign(), Base64.URL_SAFE);
+                        int permission = ContextCompat.checkSelfPermission(getApplicationContext(),
+                                Manifest.permission.ACCESS_FINE_LOCATION);
+                        if (permission == PackageManager.PERMISSION_GRANTED) {
+                            //Check if there is any live assignment if yes then start TrackerService
+                            startService(new Intent(getApplicationContext(), TrackerService.class));
+                        }
                         Intent intent = new Intent(getApplicationContext(), MapsActivity.class);
                         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                         startActivity(intent);

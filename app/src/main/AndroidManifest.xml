@@ -33,7 +33,10 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-
+        <service
+            android:name=".TrackerService"
+            android:enabled="true"
+            android:exported="true"></service>
         <!--
              The API key for Google Maps-based APIs is defined as a string resource.
              (See the file "res/values/google_maps_api.xml").
@@ -48,7 +51,7 @@
 
         <activity
             android:name=".MapsActivity"
-            android:label="Map"></activity>
+            android:label="Map" />
         <activity android:name=".TabFuture" />
         <activity android:name=".TabPresent" />
         <activity android:name=".TabPast" />
