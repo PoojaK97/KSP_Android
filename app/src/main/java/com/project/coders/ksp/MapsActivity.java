@@ -60,6 +60,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
         mMap.setMaxZoomPreference(16);
+        LatLng rvce = new LatLng(12.922612, 77.504118);
+        mMap.moveCamera(CameraUpdateFactory.newLatLng(rvce));
 
         MarkBeatPoints();
         //subscribeToUpdates();
