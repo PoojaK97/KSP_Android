@@ -55,6 +55,7 @@ public class Constable extends AppCompatActivity {
         context = getApplicationContext();
         Button reportbutton = findViewById(R.id.report);
         Button checkassignbutton = findViewById(R.id.beatwise);
+        Button sheeterbutton = findViewById(R.id.sheeters);
         final ImageView cam = findViewById(R.id.imageButton);
         final ImageView writ = findViewById(R.id.imageButton2);
         final ImageView qr = findViewById(R.id.imageButton4);
@@ -76,6 +77,12 @@ public class Constable extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 startActivity(new Intent(Constable.this, Camera.class));
+            }
+        });
+        sheeterbutton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(Constable.this, Sheeter.class));
             }
         });
         writ.setOnClickListener(new View.OnClickListener() {
