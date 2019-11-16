@@ -12,6 +12,7 @@ import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.hardware.biometrics.BiometricManager;
+import android.location.Location;
 import android.location.LocationManager;
 import android.os.Build;
 import android.os.Bundle;
@@ -60,6 +61,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private HashMap<String, Marker> mMarkers = new HashMap<>();
     private static final int PERMISSIONS_REQUEST = 1;
     private static final String KEY_NAME = UUID.randomUUID().toString();
+    private LocationManager lm;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,7 +71,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
-
         Button btn = findViewById(R.id.submit);
         btn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -205,7 +206,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     }
 
     @Nullable
-    private Signature initSignature (String keyName) throws Exception {
+    private Signature initSignature(String keyName) throws Exception {
         KeyPair keyPair = getKeyPair(keyName);
 
         if (keyPair != null) {
@@ -256,10 +257,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
-        mMap.setMaxZoomPreference(16);
+        mMap.setMaxZoomPreference(26);
         LatLng rvce = new LatLng(12.922612, 77.504118);
         mMap.moveCamera(CameraUpdateFactory.newLatLng(rvce));
-
         MarkBeatPoints();
         //subscribeToUpdates();
     }
@@ -306,6 +306,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         for (Marker marker : mMarkers.values()) {
             builder.include(marker.getPosition());
         }
-        //mMap.animateCamera(CameraUpdateFactory.newLatLngBounds(builder.build(), 300));
+        mMap.animateCamera(CameraUpdateFactory.newLatLngBounds(builder.build(), 300));
     }
 }
