@@ -14,11 +14,18 @@ public class Supervisor extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_supervisor);
         Button beatbutton = findViewById(R.id.beatwise);
+        Button beatbutton2 = findViewById(R.id.beatwise2);
         Button constablebutton = findViewById(R.id.constablewise);
         beatbutton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 startActivity(new Intent(Supervisor.this,Beats.class));
+            }
+        });
+        beatbutton2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(Supervisor.this,MapsActivity2.class));
             }
         });
         constablebutton.setOnClickListener(new View.OnClickListener() {
