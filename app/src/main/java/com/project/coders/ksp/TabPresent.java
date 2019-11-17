@@ -1,12 +1,10 @@
 package com.project.coders.ksp;
 
-import androidx.core.content.ContextCompat;
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
-import android.content.Context;
-import android.graphics.Bitmap;
-import android.graphics.Canvas;
-import android.graphics.drawable.Drawable;
+import android.graphics.Color;
+import android.location.Location;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -17,9 +15,10 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
-import com.google.android.gms.maps.model.BitmapDescriptor;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.CameraPosition;
+import com.google.android.gms.maps.model.Circle;
+import com.google.android.gms.maps.model.CircleOptions;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.Marker;
@@ -29,6 +28,7 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.HashMap;
 
@@ -75,170 +75,184 @@ public class TabPresent extends Fragment{
 //                        .icon(BitmapDescriptorFactory
 //                                .defaultMarker(BitmapDescriptorFactory.HUE_AZURE)));
 
-                subscribeToUpdates(mMap);
                 MarkBeatPoints(mMap);
+                subscribeToUpdates(mMap);
             }
         });
-
 
         return rootView;
     }
 
     private void subscribeToUpdates(final GoogleMap mMap) {
-        DatabaseReference ref = FirebaseDatabase.getInstance().getReference("Current_location");
-        ref.addChildEventListener(new ChildEventListener() {
+        final String uid = "lElVHGwqGFPdweG1xol9ByPPGVN2";
+        DatabaseReference ref = FirebaseDatabase.getInstance().getReference("Current_location"+'/'+uid);
+        ref.addValueEventListener(new ValueEventListener() {
             @Override
-            public void onChildAdded(DataSnapshot dataSnapshot, String previousChildName) {
-                setMarker(dataSnapshot, mMap);
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
+                double lat = dataSnapshot.child("latitude").getValue(double.class);
+                double lng = dataSnapshot.child("longitude").getValue(double.class);
+                LatLng location = new LatLng(lat, lng);
+
+                if (!mMarkers.containsKey(uid)) {
+                    mMarkers.put(uid, mMap.addMarker(new MarkerOptions().title(uid).position(location)
+                            .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE))));
+                } else {
+                    mMarkers.get(uid).setPosition(location);
+                }
+                LatLngBounds.Builder builder = new LatLngBounds.Builder();
+                for (Marker marker : mMarkers.values()) {
+                    builder.include(marker.getPosition());
+                }
+                changeBeatPointsStatus(location, mMap);
+                mMap.animateCamera(CameraUpdateFactory.newLatLngBounds(builder.build(), 300));
             }
 
             @Override
-            public void onChildChanged(DataSnapshot dataSnapshot, String previousChildName) {
-                setMarker(dataSnapshot, mMap);
-            }
+            public void onCancelled(@NonNull DatabaseError databaseError) {
 
-            @Override
-            public void onChildMoved(DataSnapshot dataSnapshot, String previousChildName) {
-            }
-
-            @Override
-            public void onChildRemoved(DataSnapshot dataSnapshot) {
-            }
-
-            @Override
-            public void onCancelled(DatabaseError error) {
-                Log.d("TAG", "Failed to read value.", error.toException());
-            }
-        });
-
+            }});
     }
 
+            private void changeBeatPointsStatus(final LatLng cur, final GoogleMap mMap) {
+                DatabaseReference ref = FirebaseDatabase.getInstance().getReference("Beat");
+                ref.addChildEventListener(new ChildEventListener() {
+                    @Override
+                    public void onChildAdded(DataSnapshot dataSnapshot, String previousChildName) {
+                        setMarkerBP2(dataSnapshot, cur, mMap);
+                    }
 
-    private void setMarker(DataSnapshot dataSnapshot, GoogleMap mMap) {
-        // When a location update is received, put or update
-        // its value in mMarkers, which contains all the markers
-        // for locations received, so that we can build the
-        // boundaries required to show them all on the map at once
-        String key = dataSnapshot.getKey();
-        Log.i("KEY       ", key);
-        Double lat = Double.parseDouble(dataSnapshot.child("latitude").getValue().toString());
-        Double lng = Double.parseDouble(dataSnapshot.child("longitude").getValue().toString());
-//        double lat = Double.parseDouble(value.get("latitude").toString());
-//        double lng = Double.parseDouble(value.get("longitude").toString());
-        LatLng location = new LatLng(lat, lng);
-        //curloc.set(0,location);
+                    @Override
+                    public void onChildChanged(DataSnapshot dataSnapshot, String previousChildName) {
+                        setMarkerBP2(dataSnapshot, cur, mMap);
+                    }
 
-        //changeBeatPointsStatus(location);
-        mMarkers.put(key, mMap.addMarker(new MarkerOptions().title(key).position(location)
-                    .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE))));
-        LatLngBounds.Builder builder = new LatLngBounds.Builder();
-        for (Marker marker : mMarkers.values()) {
-            builder.include(marker.getPosition());
+                    @Override
+                    public void onChildMoved(DataSnapshot dataSnapshot, String previousChildName) {
+                    }
+
+                    @Override
+                    public void onChildRemoved(DataSnapshot dataSnapshot) {
+                    }
+
+                    @Override
+                    public void onCancelled(DatabaseError error) {
+                        Log.d("TAG", "Failed to read value.", error.toException());
+                    }
+                });
+            }
+
+            private void setMarkerBP2(DataSnapshot dataSnapshot, LatLng cur, GoogleMap mMap) {
+                // When a location update is received, put or update
+                // its value in mMarkers, which contains all the markers
+                // for locations received, so that we can build the
+                // boundaries required to show them all on the map at once
+                String key = dataSnapshot.getKey();
+                HashMap<String, Object> value = (HashMap<String, Object>) dataSnapshot.getValue();
+                double lat = Double.parseDouble(value.get("latitude").toString());
+                double lng = Double.parseDouble(value.get("longitude").toString());
+                LatLng location = new LatLng(lat, lng);
+
+                //if (CalculationByDistance(location, cur) <= 50) {
+
+                Circle mCircle;
+                mCircle = mMap.addCircle(new CircleOptions()
+                        .center(location)
+                        .radius(500.0)
+                        .strokeWidth(5f)
+                        .strokeColor(Color.argb(50, 255, 0, 0))
+                        .fillColor(Color.argb(10, 100, 10, 10)));
+
+                //mMap.animateCamera(CameraUpdateFactory.newLatLngBounds(builder.build(), 300));
+                //}
+
+                float[] distance = new float[2];
+
+                Location.distanceBetween(cur.latitude, cur.longitude,
+                        mCircle.getCenter().latitude, mCircle.getCenter().longitude, distance);
+
+                if (distance[0] < mCircle.getRadius()) {
+                    mCircle.remove();
+                    mCircle = mMap.addCircle(new CircleOptions()
+                            .center(location)
+                            .radius(500.0)
+                            .strokeWidth(5f)
+                            .strokeColor(Color.argb(50, 0, 255, 0))
+                            .fillColor(Color.argb(10, 10, 100, 10)));
+                    //startService(new Intent(this, BeatPointService.class));
+
+
+                }
+
+            }
+
+
+            private void setMarker(DataSnapshot dataSnapshot, GoogleMap mMap) {
+                // When a location update is received, put or update
+                // its value in mMarkers, which contains all the markers
+                // for locations received, so that we can build the
+                // boundaries required to show them all on the map at once
+                String key = dataSnapshot.getKey();
+                Log.i("KEY       ", key);
+                Double lat = Double.parseDouble(dataSnapshot.child("latitude").getValue().toString());
+                Double lng = Double.parseDouble(dataSnapshot.child("longitude").getValue().toString());
+                LatLng location = new LatLng(lat, lng);
+                //curloc.set(0,location);
+
+                //changeBeatPointsStatus(location);
+                mMarkers.put(key, mMap.addMarker(new MarkerOptions().title(key).position(location)
+                        .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE))));
+                LatLngBounds.Builder builder = new LatLngBounds.Builder();
+                for (Marker marker : mMarkers.values()) {
+                    builder.include(marker.getPosition());
+                }
+                //changeBeatPointsStatus(location);
+                mMap.animateCamera(CameraUpdateFactory.newLatLngBounds(builder.build(), 300));
+            }
+
+            private void MarkBeatPoints(final GoogleMap mMap) {
+                DatabaseReference ref = FirebaseDatabase.getInstance().getReference("Beat");
+                ref.addChildEventListener(new ChildEventListener() {
+                    @Override
+                    public void onChildAdded(DataSnapshot dataSnapshot, String previousChildName) {
+                        setMarkerBP(dataSnapshot,mMap);
+                    }
+
+                    @Override
+                    public void onChildChanged(DataSnapshot dataSnapshot, String previousChildName) {
+                        setMarkerBP(dataSnapshot, mMap);
+                    }
+
+                    @Override
+                    public void onChildMoved(DataSnapshot dataSnapshot, String previousChildName) {
+                    }
+
+                    @Override
+                    public void onChildRemoved(DataSnapshot dataSnapshot) {
+                    }
+
+                    @Override
+                    public void onCancelled(DatabaseError error) {
+                        Log.d("TAG", "Failed to read value.", error.toException());
+                    }
+                });
+            }
+
+            private void setMarkerBP(DataSnapshot dataSnapshot, GoogleMap mMap) {
+                String key = dataSnapshot.getKey();
+                HashMap<String, Object> value = (HashMap<String, Object>) dataSnapshot.getValue();
+                double lat = Double.parseDouble(value.get("latitude").toString());
+                double lng = Double.parseDouble(value.get("longitude").toString());
+                LatLng location = new LatLng(lat, lng);
+                if (!mMarkers.containsKey(key)) {
+                    mMarkers.put(key, mMap.addMarker(new MarkerOptions().title(key).position(location)));
+                } else {
+                    mMarkers.get(key).setPosition(location);
+                }
+                LatLngBounds.Builder builder = new LatLngBounds.Builder();
+                for (Marker marker : mMarkers.values()) {
+                    builder.include(marker.getPosition());
+                }
+                mMap.animateCamera(CameraUpdateFactory.newLatLngBounds(builder.build(), 300));
+            }
         }
-        //changeBeatPointsStatus(location);
-        mMap.animateCamera(CameraUpdateFactory.newLatLngBounds(builder.build(), 300));
-    }
-
-    private void MarkBeatPoints(final GoogleMap mMap) {
-        DatabaseReference ref = FirebaseDatabase.getInstance().getReference("Beat");
-        ref.addChildEventListener(new ChildEventListener() {
-            @Override
-            public void onChildAdded(DataSnapshot dataSnapshot, String previousChildName) {
-                setMarkerBP(dataSnapshot, mMap);
-            }
-
-            @Override
-            public void onChildChanged(DataSnapshot dataSnapshot, String previousChildName) {
-                setMarkerBP(dataSnapshot, mMap);
-            }
-
-            @Override
-            public void onChildMoved(DataSnapshot dataSnapshot, String previousChildName) {
-            }
-
-            @Override
-            public void onChildRemoved(DataSnapshot dataSnapshot) {
-            }
-
-            @Override
-            public void onCancelled(DatabaseError error) {
-                Log.d("TAG", "Failed to read value.", error.toException());
-            }
-        });
-    }
-
-    private void MarkBeatPoints1(final GoogleMap mMap) {
-        DatabaseReference ref = FirebaseDatabase.getInstance().getReference("Current_Location/lElVHGwqGFPdweG1xol9ByPPGVN2");
-        ref.addChildEventListener(new ChildEventListener() {
-            @Override
-            public void onChildAdded(DataSnapshot dataSnapshot, String previousChildName) {
-                setMarkerBP1(dataSnapshot, mMap);
-            }
-
-            @Override
-            public void onChildChanged(DataSnapshot dataSnapshot, String previousChildName) {
-                setMarkerBP1(dataSnapshot, mMap);
-            }
-
-            @Override
-            public void onChildMoved(DataSnapshot dataSnapshot, String previousChildName) {
-            }
-
-            @Override
-            public void onChildRemoved(DataSnapshot dataSnapshot) {
-            }
-
-            @Override
-            public void onCancelled(DatabaseError error) {
-                Log.d("TAG", "Failed to read value.", error.toException());
-            }
-        });
-    }
-    private void setMarkerBP(DataSnapshot dataSnapshot, GoogleMap mMap) {
-        String key = dataSnapshot.getKey();
-        HashMap<String, Object> value = (HashMap<String, Object>) dataSnapshot.getValue();
-        double lat = Double.parseDouble(value.get("latitude").toString());
-        double lng = Double.parseDouble(value.get("longitude").toString());
-        LatLng location = new LatLng(lat, lng);
-        if (!mMarkers.containsKey(key)) {
-            mMarkers.put(key, mMap.addMarker(new MarkerOptions().title(key).position(location)));
-        } else {
-            mMarkers.get(key).setPosition(location);
-        }
-        LatLngBounds.Builder builder = new LatLngBounds.Builder();
-        for (Marker marker : mMarkers.values()) {
-            builder.include(marker.getPosition());
-        }
-        mMap.animateCamera(CameraUpdateFactory.newLatLngBounds(builder.build(), 300));
-    }
-
-    private void setMarkerBP1(DataSnapshot dataSnapshot, GoogleMap mMap) {
-        String key = dataSnapshot.getKey();
-        HashMap<String, Object> value = (HashMap<String, Object>) dataSnapshot.getValue();
-        double lat = Double.parseDouble(value.get("latitude").toString());
-        double lng = Double.parseDouble(value.get("longitude").toString());
-        Log.i("TAG", String.valueOf(lat));
-        Log.i("TAG", String.valueOf(lng));
-        LatLng location = new LatLng(lat, lng);
-        if (!mMarkers.containsKey(key)) {
-            mMarkers.put(key, mMap.addMarker(new MarkerOptions().title(key).position(location)));
-        } else {
-            mMarkers.get(key).setPosition(location);
-        }
-        LatLngBounds.Builder builder = new LatLngBounds.Builder();
-        for (Marker marker : mMarkers.values()) {
-            builder.include(marker.getPosition());
-        }
-        mMap.animateCamera(CameraUpdateFactory.newLatLngBounds(builder.build(), 300));
-    }
-
-    private BitmapDescriptor bitmapDescriptorFromVector(Context context, int vectorResId) {
-        Drawable vectorDrawable = ContextCompat.getDrawable(context, vectorResId);
-        vectorDrawable.setBounds(0, 0, vectorDrawable.getIntrinsicWidth(), vectorDrawable.getIntrinsicHeight());
-        Bitmap bitmap = Bitmap.createBitmap(vectorDrawable.getIntrinsicWidth(), vectorDrawable.getIntrinsicHeight(), Bitmap.Config.ARGB_8888);
-        Canvas canvas = new Canvas(bitmap);
-        vectorDrawable.draw(canvas);
-        return BitmapDescriptorFactory.fromBitmap(bitmap);
-    }
-
-}
