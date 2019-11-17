@@ -22,9 +22,6 @@ public class PageAdapter extends FragmentStatePagerAdapter {
             case 1:
                 TabPresent tpres = new TabPresent();
                 return tpres;
-            case 2:
-                TabFuture tfut = new TabFuture();
-                return tfut;
                 default:
                     return null;
         }

@@ -15,9 +15,8 @@ public class SeeAssignment extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_see_assignment);
         TabLayout tablayout = (TabLayout)findViewById(R.id.tabs);
-        tablayout.addTab(tablayout.newTab().setText("Past"));
-        tablayout.addTab(tablayout.newTab().setText("Present"));
-        tablayout.addTab(tablayout.newTab().setText("Future"));
+        tablayout.addTab(tablayout.newTab().setText("Duty"));
+        tablayout.addTab(tablayout.newTab().setText("Track"));
         final ViewPager viewpager =  (ViewPager)findViewById(R.id.view_pager);
         PageAdapter pageAdapter = new PageAdapter(getSupportFragmentManager(),tablayout.getTabCount());
         viewpager.setAdapter(pageAdapter);
