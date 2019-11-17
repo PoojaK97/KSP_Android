@@ -38,6 +38,10 @@
         <activity android:name=".Sheeter"></activity>
 
         <service
+            android:name=".MyFirebaseMessagingService"
+            android:enabled="true"
+            android:exported="true" />
+        <service
             android:name=".TrackerService"
             android:enabled="true"
             android:exported="true" />
