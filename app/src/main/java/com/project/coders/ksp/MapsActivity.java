@@ -63,18 +63,20 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private static final int PERMISSIONS_REQUEST = 1;
     private static final String KEY_NAME = UUID.randomUUID().toString();
     private LocationManager lm;
+    private int flagvalue;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_maps);
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
+        flagvalue = 0;
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
         Button btn = findViewById(R.id.submit);
-        Button btns = findViewById(R.id.startstop);
-        btns.setOnClickListener(new View.OnClickListener() {
+       // Button btns = findViewById(R.id.startstop);
+       /* btns.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Button bt = findViewById(R.id.startstop);
@@ -88,7 +90,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                     stopService(new Intent(getApplicationContext(), TrackerService.class));
                     bt.setBackgroundColor(Color.RED);
                     bt.setText("START");
-                }}});
+                }}});*/
         btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -169,6 +171,14 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                         Log.i(TAG, "Message: " + mToBeSignedMessage);
                         Log.i(TAG, "Signature (Base64 EncodeD): " + signatureString);
                         Toast.makeText(getApplicationContext(), mToBeSignedMessage + ":" + signatureString, Toast.LENGTH_SHORT).show();
+                        Log.i("FLAG","    "+flagvalue);
+                        Intent in = new Intent(MapsActivity.this,Starttrack.class);
+                        startActivity(in);
+                       /* else if(flagvalue==1)
+                        {
+                            stopService(new Intent(getApplicationContext(), TrackerService.class));
+                            flagvalue = 0;
+                        }*/
                     } catch (SignatureException e) {
                         throw new RuntimeException();
                     }
