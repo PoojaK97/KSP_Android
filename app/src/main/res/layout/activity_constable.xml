@@ -25,14 +25,15 @@
 
     <Button
         android:id="@+id/beatwise"
+        style="@android:style/Widget.Holo.Light.Button"
         android:layout_width="350sp"
         android:layout_height="wrap_content"
         android:layout_marginTop="56dp"
         android:background="#EBDD9F"
         android:fontFamily="@font/lato_light"
         android:text="BEAT CHECK"
-        android:textStyle="bold"
         android:textSize="20dp"
+        android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.491"
         app:layout_constraintStart_toStartOf="parent"
