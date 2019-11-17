@@ -61,6 +61,9 @@
         <activity
             android:name=".MapsActivity"
             android:label="Map" />
+        <activity
+            android:name=".MapsActivity2"
+            android:label="Map" />
         <activity android:name=".TabFuture" />
         <activity android:name=".TabPresent" />
         <activity android:name=".TabPast" />

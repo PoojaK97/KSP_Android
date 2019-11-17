@@ -61,8 +61,8 @@ public class TabPresent extends Fragment{
                 mMap.clear(); //clear old markers
 
                 CameraPosition googlePlex = CameraPosition.builder()
-                        .target(new LatLng(37.4219999,-122.0862462))
-                        .zoom(10)
+                        .target(new LatLng(12.922981,77.50105550))
+                        .zoom(20)
                         .bearing(0)
                         .tilt(45)
                         .build();
@@ -158,7 +158,7 @@ public class TabPresent extends Fragment{
                 Circle mCircle;
                 mCircle = mMap.addCircle(new CircleOptions()
                         .center(location)
-                        .radius(500.0)
+                        .radius(50.0)
                         .strokeWidth(5f)
                         .strokeColor(Color.argb(50, 255, 0, 0))
                         .fillColor(Color.argb(10, 100, 10, 10)));
@@ -173,9 +173,32 @@ public class TabPresent extends Fragment{
 
                 if (distance[0] < mCircle.getRadius()) {
                     mCircle.remove();
+                    final String[] beat_name = new String[1];
+                    DatabaseReference ref = FirebaseDatabase.getInstance().getReference("Beat");
+                    final Circle finalMCircle = mCircle;
+                    ref.addValueEventListener(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                            for(DataSnapshot ds : dataSnapshot.getChildren()) {
+                                String key = ds.getKey();
+                                Log.i("TAG       ", key);
+                                HashMap<String, Object> value = (HashMap<String, Object>) ds.getValue();
+                                double lat = Double.parseDouble(value.get("latitude").toString());
+                                double lng = Double.parseDouble(value.get("longitude").toString());
+                                if (finalMCircle.getCenter().latitude == lat && finalMCircle.getCenter().longitude == lng) {
+                                    DatabaseReference ref1 = FirebaseDatabase.getInstance().getReference("Visited/" + key);
+                                    ref1.setValue("Yes");
+                                }
+                            }
+                        }
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                        }
+                    });
                     mCircle = mMap.addCircle(new CircleOptions()
                             .center(location)
-                            .radius(500.0)
+                            .radius(50.0)
                             .strokeWidth(5f)
                             .strokeColor(Color.argb(50, 0, 255, 0))
                             .fillColor(Color.argb(10, 10, 100, 10)));
