@@ -34,6 +34,8 @@
         android:layout_marginLeft="59dp"
         android:layout_marginTop="40dp"
         android:layout_marginBottom="10dp"
+        android:background="#FFFF"
+        android:font ="@font/lato"
         android:text="Photo"
         android:textStyle="bold" />
 
@@ -48,6 +50,8 @@
         android:layout_marginStart="36dp"
         android:layout_marginTop="40dp"
         android:layout_marginEnd="59dp"
+        android:background="#FFFF"
+        android:font ="@font/lato"
         android:layout_marginRight="10dp"
         android:layout_marginBottom="10dp"
         android:layout_toEndOf="@+id/btnTakePicture"
@@ -62,6 +66,8 @@
         android:layout_alignParentRight="true"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
+        android:background="#FFFF"
+        android:font ="@font/lato"
         android:layout_marginEnd="-1dp"
         android:layout_marginRight="-1dp"
         android:layout_marginBottom="61dp"
