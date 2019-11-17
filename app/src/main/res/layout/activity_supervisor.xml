@@ -38,6 +38,21 @@
         app:layout_constraintTop_toBottomOf="@+id/WelcomeConstable" />
 
     <Button
+        android:id="@+id/beatwise2"
+        android:layout_width="350sp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="180dp"
+        android:background="#FFFF"
+        android:fontFamily="@font/lato_light"
+        android:text="Track All"
+        android:textSize="22dp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.491"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/WelcomeConstable" />
+
+    <Button
         android:id="@+id/constablewise"
         android:layout_width="350sp"
         android:layout_height="wrap_content"

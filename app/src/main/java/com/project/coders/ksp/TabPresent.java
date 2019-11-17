@@ -69,18 +69,74 @@ public class TabPresent extends Fragment{
 
                 mMap.animateCamera(CameraUpdateFactory.newCameraPosition(googlePlex), 10000, null);
 
-                mMap.addMarker(new MarkerOptions()
-                        .position(new LatLng(12.922612, 77.504118))
-                        .title("RVCE INDOOR STADIUM")
-                        .icon(BitmapDescriptorFactory
-                                .defaultMarker(BitmapDescriptorFactory.HUE_AZURE)));
+//                mMap.addMarker(new MarkerOptions()
+//                        .position(new LatLng(12.922612, 77.504118))
+//                        .title("RVCE INDOOR STADIUM")
+//                        .icon(BitmapDescriptorFactory
+//                                .defaultMarker(BitmapDescriptorFactory.HUE_AZURE)));
 
+                subscribeToUpdates(mMap);
                 MarkBeatPoints(mMap);
             }
         });
 
 
         return rootView;
+    }
+
+    private void subscribeToUpdates(final GoogleMap mMap) {
+        DatabaseReference ref = FirebaseDatabase.getInstance().getReference("Current_location");
+        ref.addChildEventListener(new ChildEventListener() {
+            @Override
+            public void onChildAdded(DataSnapshot dataSnapshot, String previousChildName) {
+                setMarker(dataSnapshot, mMap);
+            }
+
+            @Override
+            public void onChildChanged(DataSnapshot dataSnapshot, String previousChildName) {
+                setMarker(dataSnapshot, mMap);
+            }
+
+            @Override
+            public void onChildMoved(DataSnapshot dataSnapshot, String previousChildName) {
+            }
+
+            @Override
+            public void onChildRemoved(DataSnapshot dataSnapshot) {
+            }
+
+            @Override
+            public void onCancelled(DatabaseError error) {
+                Log.d("TAG", "Failed to read value.", error.toException());
+            }
+        });
+
+    }
+
+
+    private void setMarker(DataSnapshot dataSnapshot, GoogleMap mMap) {
+        // When a location update is received, put or update
+        // its value in mMarkers, which contains all the markers
+        // for locations received, so that we can build the
+        // boundaries required to show them all on the map at once
+        String key = dataSnapshot.getKey();
+        Log.i("KEY       ", key);
+        Double lat = Double.parseDouble(dataSnapshot.child("latitude").getValue().toString());
+        Double lng = Double.parseDouble(dataSnapshot.child("longitude").getValue().toString());
+//        double lat = Double.parseDouble(value.get("latitude").toString());
+//        double lng = Double.parseDouble(value.get("longitude").toString());
+        LatLng location = new LatLng(lat, lng);
+        //curloc.set(0,location);
+
+        //changeBeatPointsStatus(location);
+        mMarkers.put(key, mMap.addMarker(new MarkerOptions().title(key).position(location)
+                    .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE))));
+        LatLngBounds.Builder builder = new LatLngBounds.Builder();
+        for (Marker marker : mMarkers.values()) {
+            builder.include(marker.getPosition());
+        }
+        //changeBeatPointsStatus(location);
+        mMap.animateCamera(CameraUpdateFactory.newLatLngBounds(builder.build(), 300));
     }
 
     private void MarkBeatPoints(final GoogleMap mMap) {
@@ -110,11 +166,59 @@ public class TabPresent extends Fragment{
             }
         });
     }
+
+    private void MarkBeatPoints1(final GoogleMap mMap) {
+        DatabaseReference ref = FirebaseDatabase.getInstance().getReference("Current_Location/lElVHGwqGFPdweG1xol9ByPPGVN2");
+        ref.addChildEventListener(new ChildEventListener() {
+            @Override
+            public void onChildAdded(DataSnapshot dataSnapshot, String previousChildName) {
+                setMarkerBP1(dataSnapshot, mMap);
+            }
+
+            @Override
+            public void onChildChanged(DataSnapshot dataSnapshot, String previousChildName) {
+                setMarkerBP1(dataSnapshot, mMap);
+            }
+
+            @Override
+            public void onChildMoved(DataSnapshot dataSnapshot, String previousChildName) {
+            }
+
+            @Override
+            public void onChildRemoved(DataSnapshot dataSnapshot) {
+            }
+
+            @Override
+            public void onCancelled(DatabaseError error) {
+                Log.d("TAG", "Failed to read value.", error.toException());
+            }
+        });
+    }
     private void setMarkerBP(DataSnapshot dataSnapshot, GoogleMap mMap) {
         String key = dataSnapshot.getKey();
         HashMap<String, Object> value = (HashMap<String, Object>) dataSnapshot.getValue();
         double lat = Double.parseDouble(value.get("latitude").toString());
         double lng = Double.parseDouble(value.get("longitude").toString());
+        LatLng location = new LatLng(lat, lng);
+        if (!mMarkers.containsKey(key)) {
+            mMarkers.put(key, mMap.addMarker(new MarkerOptions().title(key).position(location)));
+        } else {
+            mMarkers.get(key).setPosition(location);
+        }
+        LatLngBounds.Builder builder = new LatLngBounds.Builder();
+        for (Marker marker : mMarkers.values()) {
+            builder.include(marker.getPosition());
+        }
+        mMap.animateCamera(CameraUpdateFactory.newLatLngBounds(builder.build(), 300));
+    }
+
+    private void setMarkerBP1(DataSnapshot dataSnapshot, GoogleMap mMap) {
+        String key = dataSnapshot.getKey();
+        HashMap<String, Object> value = (HashMap<String, Object>) dataSnapshot.getValue();
+        double lat = Double.parseDouble(value.get("latitude").toString());
+        double lng = Double.parseDouble(value.get("longitude").toString());
+        Log.i("TAG", String.valueOf(lat));
+        Log.i("TAG", String.valueOf(lng));
         LatLng location = new LatLng(lat, lng);
         if (!mMarkers.containsKey(key)) {
             mMarkers.put(key, mMap.addMarker(new MarkerOptions().title(key).position(location)));
