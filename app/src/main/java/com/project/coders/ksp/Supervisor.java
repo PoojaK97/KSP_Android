@@ -19,14 +19,12 @@ public class Supervisor extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 startActivity(new Intent(Supervisor.this,Beats.class));
-                finish();
             }
         });
         constablebutton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 startActivity(new Intent(Supervisor.this,ShowConstableWise.class));
-                finish();
             }
         });
     }
