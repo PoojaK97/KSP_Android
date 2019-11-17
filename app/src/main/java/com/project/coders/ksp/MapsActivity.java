@@ -11,6 +11,7 @@ import androidx.fragment.app.FragmentActivity;
 import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Color;
 import android.hardware.biometrics.BiometricManager;
 import android.location.Location;
 import android.location.LocationManager;
@@ -72,6 +73,22 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
         Button btn = findViewById(R.id.submit);
+        Button btns = findViewById(R.id.startstop);
+        btns.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Button bt = findViewById(R.id.startstop);
+                String strst1 = bt.getText().toString();
+                if(strst1.equalsIgnoreCase("Start")){
+                    startService(new Intent(getApplicationContext(), TrackerService.class));
+                    bt.setBackgroundColor(Color.BLUE);
+                    bt.setText("STOP");
+                }
+                if(strst1.equalsIgnoreCase("Stop")){
+                    stopService(new Intent(getApplicationContext(), TrackerService.class));
+                    bt.setBackgroundColor(Color.RED);
+                    bt.setText("START");
+                }}});
         btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
