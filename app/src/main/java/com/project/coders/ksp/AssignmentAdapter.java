@@ -62,9 +62,9 @@ public class AssignmentAdapter extends RecyclerView.Adapter<AssignmentAdapter.Vi
         public ViewHolder(View itemView) {
             super(itemView);
             this.imageView = itemView.findViewById(R.id.image);
-            this.textView = itemView.findViewById(R.id.textView);
-            this.textView1 = itemView.findViewById(R.id.textView1);
-            this.textView2 = itemView.findViewById(R.id.textView2);
+            this.textView = itemView.findViewById(R.id.textView1);
+            this.textView1 = itemView.findViewById(R.id.textView2);
+            this.textView2 = itemView.findViewById(R.id.textView);
             relativeLayout = itemView.findViewById(R.id.relativeLayout);
         }
     }

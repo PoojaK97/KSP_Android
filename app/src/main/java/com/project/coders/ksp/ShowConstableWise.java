@@ -53,22 +53,6 @@ public class ShowConstableWise extends Activity {
         ref1.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                for(DataSnapshot ds : dataSnapshot.getChildren()) {
-                    String key = ds.getKey();
-                    String role = ds.child("Role").getValue(String.class);
-                    String supervisor = ds.child("Supervisor").getValue(String.class);
-                    if (role.equals("Constable") && supervisor.equals(uid)) {
-                        String name = ds.child("Name").getValue(String.class);
-                        Log.i("NAME", name);
-                        Log.i("ROLE", role);
-                        Log.i("KEY", key);
-                        idsArrayList.add(key);
-                        namesArrayList.add(name);
-                    }
-                }
-                for (String member : namesArrayList){
-                    Log.i("NAMES LIST: ", member);
-                }
             }
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
@@ -77,7 +61,7 @@ public class ShowConstableWise extends Activity {
         });
 
         myDataset =new String[]{"KSP171","KSP202"};
-        myDataset1 =new String[]{"Kumaran LP","Hema Lata"};
+        myDataset1 =new String[]{"Jai Singh","Veeru Venkat"};
         // specify an adapter (see also next example)
         mAdapter = new ShowConstableWiseAdapter(myDataset,myDataset1,getApplicationContext());
         recyclerView.setAdapter(mAdapter);

@@ -25,8 +25,8 @@ public class TabPast extends Fragment {
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
 
         Assignment[] myListData = new Assignment[] {
-                new Assignment("123234234", "34325325324", "Hebbal"),
-                new Assignment("234425523", "4336t5t3", "Mathikere")
+                new Assignment("Start_Time - 10:00am", "End_Time - 1:00pm", "Indoor Stadium"),
+                new Assignment("Start_Time - 4:00pm", "End_Time - 7:00pm", "Canteen")
         };
 
         AssignmentAdapter adapter = new AssignmentAdapter(myListData);
