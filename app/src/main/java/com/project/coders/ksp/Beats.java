@@ -35,7 +35,7 @@ public class Beats extends Activity {
             // use a linear layout manager
             layoutManager = new LinearLayoutManager(this);
             recyclerView.setLayoutManager(layoutManager);
-            myDataset =new String[]{"Beat 1: HKT layout","Beat 2: PalaceGrounds"};
+            myDataset =new String[]{"Beat 1: HKT layout\nExpected theft: 22\nExpected Eveteasing: 5\nExpected murder: 0\n--------------------\n","Beat 2: PalaceGrounds\nExpected theft: 12\nExpected Eveteasing: 10\nExpected murder: 0\n--------------------  \n"};
             // specify an adapter (see also next example)
             mAdapter = new BeatAdapter(myDataset);
             recyclerView.setAdapter(mAdapter);
